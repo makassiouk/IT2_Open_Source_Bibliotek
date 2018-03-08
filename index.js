@@ -3,24 +3,82 @@
 function winInit() {
 
     readCanvas = document.getElementById("myCanvas");
-    ctx = readCanvas.getContext("2d");
+	ctx = readCanvas.getContext("2d");
+	myDIV = document.getElementById("myDIV");
+	
+	myDIV.innerHTML = createHtmlTable();
     
     drawText({
         ctx: ctx,
         x: 100,
         y: 100,
-        fillstyle: "Black",
-        font: "18px Arial",
-        text: "Hi",
+        fillstyle: "Green",
+        font: "36px Arial",
+        text: "This is Text",
     });
 
     drawCircle({
         ctx: ctx,
-        xCentre: 100,
-        yCentre: 100,
+		yCentre: 100,
+		xCentre: 100,
         radius: 100,
         color: "Black",
-    });
+	});
+	
+	drawFilledCircle({
+		ctx: ctx,
+        x: 200,
+        y: 100,
+        size: 26,
+        color: "Black",
+	});
+
+	drawSquare({
+		ctx: ctx,
+		x: 200,
+		y: 200,
+		height: 110,
+		width: 110,
+		color: "red",
+	});
+
+	drawFilledSquare({
+		ctx: ctx,
+		x: 200,
+		y: 250,
+		height: 43,
+		width: 80,
+		color: "red",
+	});
+
+	drawTriangle({
+		ctx: ctx,
+		x: 150,
+		y: 100,
+		height: 50,
+		width: 75,
+		color: "Black",
+		linewidth: 2,
+	});
+
+	drawFilledTriangle({
+		ctx: ctx,
+		x: 100,
+		y: 100,
+		height: 20,
+		width: 30,
+		color: "Black",
+	});
+
+	drawFilledPoly({
+		ctx: ctx,
+		x: 300,
+		y: 300,
+		radius: 100,
+		color: "Black",
+		linewidth: 2,
+		count: 7,
+	});
 }
 window.onload = winInit;
 
@@ -48,10 +106,8 @@ function setArray(a, v) {
 
 //Does what it says. Returns maximum value of an array.
 function findMaxValue(array) {
-	"use strict";
-	var max, i;
+	let max, i;
 	max = array[0];
-
 	for (i = 1; i < array.length; i += 1) {
 		if (array[i] > max) {
 			max = array[i];
@@ -83,31 +139,46 @@ function terningKast(sides) {
 /*
 lagHtmlTabell DOC:
 */
+/*options = {
+	a = document.getElementById("someElement").innerHTML,
+}*/
 
-lagHtmlTabell = function(regnestykker, svar, retteSvar) {
-	"use strict";
-	var i, utskrift, antallRegnestykker = 0;
-	antallRegnestykker = [regnestykker.length];
-
-	utskrift = "<table id><thead><tr><th>RegneStykke</th><th> Elevens Svar </th><th> Rett Svar </th></tr></thead>";
-	utskrift = utskrift + "<tbody>";
-	
+createHtmlTable = function(options) {
+	/*		<table>
+			<tr>
+			  <th>Firstname</th>
+			  <th>Lastname</th> 
+			  <th>Age</th>
+			</tr>
+			<tr>
+			  <td>Jill</td>
+			  <td>Smith</td> 
+			  <td>50</td>
+			</tr>
+			<tr>
+			  <td>Eve</td>
+			  <td>Jackson</td> 
+			  <td>94</td>
+			</tr>
+		  </table> */
+	let data;
+	data = "<table><tr><th>FirstName</th><th>LastName</th></tr><table>";
+	/*
 	for (i = 0; i <= (antallRegnestykker - 1); i += 1) {
 		utskrift = utskrift + "<tr>"  + "<td>" + regnestykker[i] + "</td>"
 									  + "<td>" + svar[i] + "</td>"
 									  + "<td>" + retteSvar[i] + "</td>" + "</tr>"; //tegner tabellen fra js til html.
 	}
-	utskrift = utskrift + "</tbody> </table>"; //lukker tabellen
-	document.getElementById("tabellUtskrift").innerHTML = utskrift;
+	*/
+	return data;
 }
 
-function showBackgroundMenu(){
-	backgroundMenu.style.display = "block";
+showDIV = function(htmlObject){
+	htmlObject.style.display = "block";
 }
 
-function hideBackgroundMenu(filename){
-	backgroundMenu.style.display = "none";
-	uploadImportedImage(ctx, filename);
+ hideDIV = function(htmlObject){
+	htmlObject.style.display = "none";
 }
 
 function changeVisiblePage(frontPage, otherPage, otherPage2) {
@@ -159,73 +230,120 @@ function drawCircle(options) {
 	ctx.stroke();
 }
 
-function drawFilledCircle(ctx, x, y, size, colour) {
+/*options = {
+    ctx: ctx,
+    xCentre: 100,
+    yCentre: 100,
+    size: 10,
+    color: "Black",
+}*/
+function drawFilledCircle(options) {
 	"use strict";
+	options.ctx.beginPath();
+	options.ctx.strokeStyle = options.color;
+	options.ctx.fillStyle = options.color;
+	options.ctx.moveTo(options.x, options.y);
+	options.ctx.arc(options.x, options.y, options.size, 0, 2 * Math.PI);
+	options.ctx.fill();
+}
+
+/*options = {
+    ctx: ctx,
+    x: 100,
+    y: 100,
+	height: 10,
+	width: 10,
+    color: "Black",
+}*/
+function drawSquare(options) {
+    "use strict";
+    options.ctx.beginPath();
+	options.ctx.strokeStyle = options.color;
+	options.ctx.lineWidth = 2;
+    options.ctx.moveTo(options.x, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y + options.height);
+    options.ctx.lineTo(options.x, options.y + options.height);
+    options.ctx.lineTo(options.x, options.y);
+    options.ctx.stroke();
+}
+
+/*options = {
+    ctx: ctx,
+    x: 100,
+    y: 100,
+	height: 10,
+	width: 10,
+    color: "Black",
+}*/
+function drawFilledSquare(options) {
+    "use strict";
+    options.ctx.beginPath();
+	options.ctx.fillStyle = options.color;
+    options.ctx.moveTo(options.x, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y - options.height);
+    options.ctx.lineTo(options.x, options.y - options.height);
+    options.ctx.lineTo(options.x, options.y);
+    options.ctx.fill();
+}
+
+/*options = {
+    ctx: ctx,
+    x: 100,
+    y: 100,
+	height: 10,
+	width: 10,
+	color: "Black",
+	linewidth: 2,
+}*/
+function drawTriangle(options) {
+    "use strict";
+    options.ctx.beginPath();
+	options.ctx.strokeStyle = options.color;
+	options.ctx.lineWidth = options.linewidth;
+    options.ctx.moveTo(options.x, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y - options.height);
+    options.ctx.lineTo(options.x, options.y);
+    options.ctx.stroke();
+}
+
+/*options = {
+    ctx: ctx,
+    x: 100,
+    y: 100,
+	height: 10,
+	width: 10,
+	color: "Black",
+}*/
+function drawFilledTriangle(options) {
+    "use strict";
+	options.ctx.beginPath();
+	options.ctx.fillStyle = options.color;
+    options.ctx.moveTo(options.x, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y);
+    options.ctx.lineTo(options.x + options.width, options.y + options.height);
+    options.ctx.lineTo(options.x, options.y);
+    options.ctx.fill();
+}
+
+/*options = {
+    ctx: ctx,
+    x: 100,
+    y: 100,
+	radius: 5,
+	color: "Black",
+	linewidth: 2,
+	count: 5,
+}*/
+function drawFilledPoly(options) {
 	ctx.beginPath();
-	ctx.strokeStyle = colour;
-	ctx.fillStyle = colour;
-	ctx.moveTo(cX, cY);
-	ctx.arc(cX, cY, size, 0, 2 * Math.PI);
-	ctx.fill();
-}
-
-function drawSquare(ctx, x, y, height, width, color) {
-    "use strict";
-    ctx.beginPath();
-	ctx.strokeStyle = color;
-	ctx.lineWidth = 2;
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + width, y);
-    ctx.lineTo(x + width, y + height);
-    ctx.lineTo(x, y + height);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-}
-
-function drawFilledSquare(ctx, x, y, height, width, colour) {
-    "use strict";
-    ctx.beginPath();
-	ctx.fillStyle = colour;
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + width, y);
-    ctx.lineTo(x + width, y - height);
-    ctx.lineTo(x, y - height);
-    ctx.lineTo(x, y);
-    ctx.fill();
-}
-
-function drawTriangle(ctx, x, y, height, width, color) {
-    "use strict";
-    ctx.beginPath();
-	ctx.strokeStyle = color;
-	ctx.lineWidth = 2;
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + width, y);
-    ctx.lineTo(x + width, y - height);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-}
-
-function drawFilledTriangle(ctx, x, y, height, width, color) {
-    "use strict";
-    ctx.beginPath();
-	ctx.fillStyle = color;
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + width, y);
-    ctx.lineTo(x + width, y + height);
-    ctx.lineTo(x, y);
-    ctx.fill();
-}
-
-function drawFilledPoly(ctx, x, y, antall, radius, color) {
-	"use strict";
-	var i;
-	ctx.beginPath();
-	ctx.moveTo(x + radius * Math.cos(0), y + radius * Math.sin(0));
-	ctx.strokeStyle = color;
-	ctx.lineWidth = 2;
-	for (i = 1; i <= antall; i += 1) {
-		ctx.lineTo(x + radius * Math.cos(i * 2 * Math.PI / antall), y + radius * Math.sin(i * 2 * Math.PI / antall));
+	ctx.moveTo(options.x + options.radius * Math.cos(0), options.y + options.radius * Math.sin(0));
+	ctx.strokeStyle = options.color;
+	ctx.lineWidth = options.linewidth;
+	for (i = 1; i <= options.count; i += 1) {
+		ctx.lineTo(options.x + options.radius * Math.cos(i * 2 * Math.PI / options.count), options.y + options.radius * Math.sin(i * 2 * Math.PI / options.count));
 	}
 	ctx.stroke();
 }
