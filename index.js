@@ -143,33 +143,20 @@ lagHtmlTabell DOC:
 	a = document.getElementById("someElement").innerHTML,
 }*/
 
-createHtmlTable = function(options) {
-	/*		<table>
-			<tr>
-			  <th>Firstname</th>
-			  <th>Lastname</th> 
-			  <th>Age</th>
-			</tr>
-			<tr>
-			  <td>Jill</td>
-			  <td>Smith</td> 
-			  <td>50</td>
-			</tr>
-			<tr>
-			  <td>Eve</td>
-			  <td>Jackson</td> 
-			  <td>94</td>
-			</tr>
-		  </table> */
+drawHtmlTable = function(prosentArray){
 	let data;
-	data = "<table><tr><th>FirstName</th><th>LastName</th></tr><table>";
-	/*
-	for (i = 0; i <= (antallRegnestykker - 1); i += 1) {
-		utskrift = utskrift + "<tr>"  + "<td>" + regnestykker[i] + "</td>"
-									  + "<td>" + svar[i] + "</td>"
-									  + "<td>" + retteSvar[i] + "</td>" + "</tr>"; //tegner tabellen fra js til html.
+	let partiNavn = ["Ap", "FrP", "Høyre", "KrF", "Miljøpartiet", "Piratpartiet", "Rødt", "Senterpartiet", "SV", "Venstre"];
+	let forrigeOppslutning = [23.0, 15.6, 28.2, 2.8, 3.8, 4.3, 3.7, 4.2, 5, 6.7];
+	data = "<table><tr><th>Partinavn</th><th>Oppslutning 2017</th> <th>Oppslutning 2013</th></tr>";
+	for(i = 0; i <= 9; i += 1){
+	data += "<tr>"+
+				"<td>" + partiNavn[i] + "</td>"+
+				"<td>" + prosentArray[i] + "</td>"+
+				"<td>" + forrigeOppslutning[i] + "</td>"+
+				"<td>" + ((prosentArray[i] - forrigeOppslutning[i]).toFixed(1)) + "</td>"+
+			"</tr>";
 	}
-	*/
+	data += "</table>";
 	return data;
 }
 
@@ -232,8 +219,8 @@ function drawCircle(options) {
 
 /*options = {
     ctx: ctx,
-    xCentre: 100,
-    yCentre: 100,
+    x: 100,
+    y: 100,
     size: 10,
     color: "Black",
 }*/
