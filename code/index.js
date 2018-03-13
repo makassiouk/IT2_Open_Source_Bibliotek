@@ -1,12 +1,19 @@
 /*jslint devel: true */
 
+/*
+FUNKSJONER SOM MANGLER:
+	Sektordiagram og stolpediagram.
+	HTML Tabell.
+	Animasjonsbibliotek.
+
+ - Noen funksjoner er skrevet med et objekt som argument istedenfor mange argumenter.
+ */
+
 function winInit() {
 
     readCanvas = document.getElementById("myCanvas");
 	ctx = readCanvas.getContext("2d");
 	myDIV = document.getElementById("myDIV");
-	
-	myDIV.innerHTML = createHtmlTable();
     
     drawText({
         ctx: ctx,
@@ -16,50 +23,6 @@ function winInit() {
         font: "36px Arial",
         text: "This is Text",
     });
-
-    drawCircle({
-        ctx: ctx,
-		yCentre: 100,
-		xCentre: 100,
-        radius: 100,
-        color: "Black",
-	});
-	
-	drawFilledCircle({
-		ctx: ctx,
-        x: 200,
-        y: 100,
-        size: 26,
-        color: "Black",
-	});
-
-	drawSquare({
-		ctx: ctx,
-		x: 200,
-		y: 200,
-		height: 110,
-		width: 110,
-		color: "red",
-	});
-
-	drawFilledSquare({
-		ctx: ctx,
-		x: 200,
-		y: 250,
-		height: 43,
-		width: 80,
-		color: "red",
-	});
-
-	drawTriangle({
-		ctx: ctx,
-		x: 150,
-		y: 100,
-		height: 50,
-		width: 75,
-		color: "Black",
-		linewidth: 2,
-	});
 
 	drawFilledTriangle({
 		ctx: ctx,
@@ -85,7 +48,7 @@ window.onload = winInit;
 /*
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
-    General maths and data manipulation functions
+    General maths, data and variable manipulation functions
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
 */
@@ -118,12 +81,11 @@ function findMaxValue(array) {
 }
 /*
 Kaster terningen og gir et svar basert på hvor mange ansikt terningen har.
-	sides: Sidene på terningen.
+	maxNumber: max antall .
 	a: Resultatet av et kast.
 */
-function terningKast(sides) {
-    "use strict";
-    var a = Math.floor(Math.random() * sides);
+function randomNumber(maxNumber) {
+    let a = Math.floor(Math.random() * maxNumber);
     return a;
 }
 
@@ -337,7 +299,7 @@ function drawFilledPoly(options) {
 
 /*
      - - - - - - - - - - - - - - - - - - - - - - - -
-     More advanced Canvas Functions for displaying Data
+     More Canvas Functions for displaying Data
      - - - - - - - - - - - - - - - - - - - - - - - -
 */
 
@@ -421,62 +383,36 @@ function drawPoleDiagram(data, amount, maxValue) {
     - - - - - - - - - - - - - - - - - - - - - - - -
 */
 
-function roundBrush(ctx, x, y, size, colour) {
-	"use strict";
-	size = size/2;
-	ctx.beginPath();
-	ctx.strokeStyle = colour;
-	ctx.fillStyle = colour;
-	ctx.moveTo(cX, cY);
-	ctx.arc(cX, cY, size, 0, 2 * Math.PI);
-	ctx.fill();
-}
-
-function squareBrush(ctx, x, y, size, colour) {
-	"use strict";
-	var offSet;
-	size = size*1.1/1.1;
-	offSet = size / 2;
-	x = x - offSet
-	y = y - offSet
-	ctx.beginPath();
-	ctx.fillStyle = colour;
-	ctx.moveTo(x , y);
-    ctx.lineTo(x + size, y);
-    ctx.lineTo(x + size, y + size);
-    ctx.lineTo(x, y + size);
-	ctx.lineTo(x, y);
-	ctx.fill();
-}
+//No Code
 
 /*
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
-    Different Templates For Functions and misc user interaction functions
+    Different Templates For Functions and user interaction functions
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
     - - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
 */
 
-//Template for Switch Statement
+//Template for Switch Statement where switchParameter is a number
 function switchStatement(switchParameter) {
 	switch(switchParameter) {
-        case 0:
+        	case 0:
             //Block of code
 			break;
-            //Block of code
+
 			case 1:
             //Block of code
 			break;
-            //Block of code
+
 			case 2:
             //Block of code
 			break;
-            //Block of code
+
 			case 3:
             //Block of code
 			break;
 		default:
-		console.log("none");
+		//Block of code
 	}
 }
 
@@ -486,15 +422,14 @@ myCat = {
 	"name": "meowsalot",
 	"species": "cat",
 	"run": function () {
-		"use strict";
-		console.log("Running cat function");
+		console.log("Cat is now running");
 	}
 };
 
 
 /*
 keyDownHandler() DOC:
-Makes enter trigger something for example: a function.
+Makes enter fire a function.
 Needs an Eventlistener. Use document.addEventListener(); to make it useable (see below)
 	e: No idea what e stands for. May be some sort of context variable.
 
@@ -508,14 +443,14 @@ function keyDownHandler(e) {
 document.addEventListener("keydown", keyDownHandler, false);
 
 /*
-Returns mouse coordinates on a page when mouse is clicked. Can be used with margin:0; to get coordinates of a canvas.
-Create two global variables named mX and mY or make the program return them.
+Returns mouse coordinates on a page when mouse is clicked. Can be used with margin:0; on body
+to get coordinates of a canvas in the upper right corner.
+	Create two global variables named mX and mY or make the program return them.
 */
 window.onclick = function (e) {
 	"use strict";
 	var mX, mY;
 	mX = e.pageX;
 	mY = e.pageY;
-	
 	console.log(mX + " " + mY);
 };
