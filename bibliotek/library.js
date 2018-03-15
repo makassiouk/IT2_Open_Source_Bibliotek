@@ -5,6 +5,7 @@ FUNKSJONER SOM MANGLER:
 	Sektordiagram og stolpediagram.
 	HTML Tabell.
 	Animasjonsbibliotek.
+	Objektorienterte eksempler på classes og constructors.
 
  - Noen funksjoner er skrevet med et objekt som argument istedenfor mange argumenter.
  - litt norsk-engelsk, gjerne skriv guidene om til norsk og lag en pull-request. 
