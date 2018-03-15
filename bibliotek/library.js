@@ -7,14 +7,38 @@ FUNKSJONER SOM MANGLER:
 	Animasjonsbibliotek.
 
  - Noen funksjoner er skrevet med et objekt som argument istedenfor mange argumenter.
+ - litt norsk-engelsk, gjerne skriv guidene om til norsk og lag en pull-request. 
+ - Om du ser noe som kan forbedres gjerne lag en request på GitHub eller skriv om det i gruppechatten
  */
 
 function winInit() {
-
-    readCanvas = document.getElementById("myCanvas");
+	readCanvas = document.getElementById("myCanvas");
 	ctx = readCanvas.getContext("2d");
+
+	//Eksempel - Stolpediagram
+	drawColumnChart({
+		ctx: ctx,
+		xData: [1,2,3,4,5,6],
+		yData: [10, 20, 30, 10, 20, 30],
+		cvx: 25,
+		cvy: 250,
+		number: 6,
+		widthPx: 10,
+		yScale: 1,
+		barColor: "Darkblue",
+		textColor: "Red"
+	});
+	
+	//Eksempel - lese og skrive json data til en data.js fil.
+	console.log(jsonData.myData);
+	jsonData.myData[0] = "Switcheroo";
+	console.log(jsonData.myData);
+
+	//Eksempel HTML tabell
 	myDIV = document.getElementById("myDIV");
-    
+	myDIV.innerHTML = drawHtmlTable();
+	
+	//Eksempel Canvas
     drawText({
         ctx: ctx,
         x: 100,
@@ -23,21 +47,19 @@ function winInit() {
         font: "36px Arial",
         text: "This is Text",
     });
-
 	drawFilledTriangle({
 		ctx: ctx,
 		x: 100,
-		y: 100,
+		y: 150,
 		height: 20,
 		width: 30,
-		color: "Black",
+		color: "blue",
 	});
-
 	drawFilledPoly({
 		ctx: ctx,
-		x: 300,
+		x: 100,
 		y: 300,
-		radius: 100,
+		radius: 20,
 		color: "Black",
 		linewidth: 2,
 		count: 7,
@@ -80,7 +102,7 @@ function findMaxValue(array) {
 	return max;
 }
 /*
-Kaster terningen og gir et svar basert på hvor mange ansikt terningen har.
+Gir et tilfeldig tall innenfor en gitt rekkevidde.
 	maxNumber: max antall .
 	a: Resultatet av et kast.
 */
@@ -88,6 +110,29 @@ function randomNumber(maxNumber) {
     let a = Math.floor(Math.random() * maxNumber);
     return a;
 }
+
+/*
+	- - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -    
+	JSON Functions, get json directly from .txt files or reference them in a new data.js file in html and access it as a variable.
+
+	Create a new data.js file and reference it in html head tag like so <script src = "data.js"> </script>
+	then assign the data to a variable and you can access it using "yourVariable".data
+
+	ExampleData:
+		var jsonData = 
+	{
+		"uname":"admin",
+		"email":"admin@email.com",
+		"psw":"password",
+		"myData":[1,2,3,4,5,1,13,19,"Hi","Text", 1.0231]
+	}
+
+	Accessing json data from .txt files is a bit different. Here we use AJAX requests to GET the data and parse it to json.
+	*
+	COMING SOON
+	*
+	- - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -    
+*/
 
 
 /*
@@ -100,22 +145,23 @@ function randomNumber(maxNumber) {
 
 /*
 lagHtmlTabell DOC:
+	Trenger innerHTML til et objekt, f.eks en div eller <p> document.getElementById("someElement").innerHTML
+	array1, array2 og array3 er bare eksempeldata for tabellen.
+	Husk å forandre på hvor stor i skal være i for loopen for å  bestemme hvor mange kolonner du ønsker.
+	Flere rader kan lages ved å legge til ' "<td>" + array4[i] + "</td>"+ '
 */
-/*options = {
-	a = document.getElementById("someElement").innerHTML,
-}*/
 
-drawHtmlTable = function(prosentArray){
+drawHtmlTable = function(){
 	let data;
-	let partiNavn = ["Ap", "FrP", "Høyre", "KrF", "Miljøpartiet", "Piratpartiet", "Rødt", "Senterpartiet", "SV", "Venstre"];
-	let forrigeOppslutning = [23.0, 15.6, 28.2, 2.8, 3.8, 4.3, 3.7, 4.2, 5, 6.7];
+	let array1 = ["Ap", "FrP", "Høyre", "KrF", "Miljøpartiet", "Piratpartiet", "Rødt", "Senterpartiet", "SV", "Venstre"];
+	let array2 = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+	let array3 = [23.0, 15.6, 28.2, 2.8, 3.8, 4.3, 3.7, 4.2, 5, 6.7];
 	data = "<table><tr><th>Partinavn</th><th>Oppslutning 2017</th> <th>Oppslutning 2013</th></tr>";
 	for(i = 0; i <= 9; i += 1){
 	data += "<tr>"+
-				"<td>" + partiNavn[i] + "</td>"+
-				"<td>" + prosentArray[i] + "</td>"+
-				"<td>" + forrigeOppslutning[i] + "</td>"+
-				"<td>" + ((prosentArray[i] - forrigeOppslutning[i]).toFixed(1)) + "</td>"+
+				"<td>" + array1[i] + "</td>"+
+				"<td>" + array2[i] + "</td>"+
+				"<td>" + array3[i] + "</td>"+
 			"</tr>";
 	}
 	data += "</table>";
@@ -304,24 +350,43 @@ function drawFilledPoly(options) {
 */
 
 /*
-drawRectVertically DOC:
-    xData:
-    yData:
-    cvx:
-    cvy:
-    number:
-    widthPx:
-    yScale:
+drawColumnChart DOC:
+{
+	ctx: ctx,
+    xData: [1,2,3,4,5,6],
+    yData: [10,30,20,10,20,30],
+    cvx: "the spacing between the columns" 25,
+    cvy: "Bottom left corner y coord" 250,
+    number: "how many columns to display" 6,
+    widthPx: "the width of the columns" 1,
+	yScale: "scaling of the height of the columns" 1,
+	barColor: "DarkBlue",
+	textColor: "Red"
+}
 */
-function drawRectVertically(xData, yData, cvx, cvy, number, widthPx, yScale) {
+function drawColumnChart(options) {
     "use strict";
     var i, yPixel;
-    number = number - 1;
+    options.number = options.number - 1;
     
-    for (i = 0; i <= number; i = i + 1) {
-        yPixel = yData[i] * yScale;
-        drawFilledSquare(10 + cvx * i, cvy, yPixel, widthPx, "DarkBlue");
-        drawText(yData[i], 10 + cvx * i + 10, cvy - 15 - yPixel);
+    for (i = 0; i <= options.number; i = i + 1) {
+        yPixel = options.yData[i] * options.yScale;
+		drawFilledSquare({
+			ctx: options.ctx,
+			x: 10 + options.cvx * i,
+			y: options.cvy,
+			height: yPixel,
+			width: options.widthPx,
+			color: options.barColor,
+		});
+		drawText({
+			ctx: options.ctx,
+			text: options.yData[i],
+			x: 10 + options.cvx * i,
+			y: options.cvy - 15 - yPixel,
+			fillstyle: options.textColor,
+			font: "18px Arial"
+		});
     }
 } //Math.max.apply(null.yStolpe)// finne max verdi av array til scaling av stolpediagram.
 
@@ -359,12 +424,23 @@ function drawPoleDiagram(); DOC:
 		maxValue: Maximum value of the following operation so it can be scaled appropriately.
 	IMPORTANT NEEDS FOLLOWING TO FUNCTION:
 	Global variables:	canvasRead = document.getElementById("myCanvas");
-				ctx = document.getElementById("myCanvas").getContext("2d");
+						ctx = document.getElementById("myCanvas").getContext("2d");
 	functions:	drawFilledSquare();
 				drawText();
+
+{
+	ctx: ctx,
+	canvasRead: canvasRead,
+	data: [],
+	amount: [],
+	maxValue: [],
+}
+
+UNDER CONSTRUCTION *****************************************
+
 */
 
-function drawPoleDiagram(data, amount, maxValue) {
+function drawPoleDiagram(ctx, canvasRead, data, amount, maxValue) {
 	"use strict";
 	var i, height, yScale;
 	yScale = (canvasRead.height - 20) / maxValue; //max value of data instead of amount
@@ -437,7 +513,7 @@ Needs an Eventlistener. Use document.addEventListener(); to make it useable (see
 function keyDownHandler(e) {
 	"use strict";
 	if (e.keyCode === 13) {
-		someFunction();
+		console.log("Enter was pressed");
     }
 }
 document.addEventListener("keydown", keyDownHandler, false);
@@ -454,3 +530,80 @@ window.onclick = function (e) {
 	mY = e.pageY;
 	console.log(mX + " " + mY);
 };
+
+/*
+Javascript native functions:
+
+- - - - - - - - - - - - - - - - - - - - - - - -  
+STRINGS
+
+constructor	Returns the string's constructor function
+length	Returns the length of a string
+prototype	Allows you to add properties and methods to an object
+
+charAt()	Returns the character at the specified index (position)
+charCodeAt()	Returns the Unicode of the character at the specified index
+concat()	Joins two or more strings, and returns a new joined strings
+endsWith()	Checks whether a string ends with specified string/characters
+fromCharCode()	Converts Unicode values to characters
+includes()	Checks whether a string contains the specified string/characters
+indexOf()	Returns the position of the first found occurrence of a specified value in a string
+lastIndexOf()	Returns the position of the last found occurrence of a specified value in a string
+localeCompare()	Compares two strings in the current locale
+match()	Searches a string for a match against a regular expression, and returns the matches
+repeat()	Returns a new string with a specified number of copies of an existing string
+replace()	Searches a string for a specified value, or a regular expression, and returns a new string where the specified values are replaced
+search()	Searches a string for a specified value, or regular expression, and returns the position of the match
+slice()	Extracts a part of a string and returns a new string
+split()	Splits a string into an array of substrings
+startsWith()	Checks whether a string begins with specified characters
+substr()	Extracts the characters from a string, beginning at a specified start position, and through the specified number of character
+substring()	Extracts the characters from a string, between two specified indices
+toLocaleLowerCase()	Converts a string to lowercase letters, according to the host's locale
+toLocaleUpperCase()	Converts a string to uppercase letters, according to the host's locale
+toLowerCase()	Converts a string to lowercase letters
+toString()	Returns the value of a String object
+toUpperCase()	Converts a string to uppercase letters
+trim()	Removes whitespace from both ends of a string
+valueOf()	Returns the primitive value of a String object
+- - - - - - - - - - - - - - - - - - - - - - - -  
+*
+- - - - - - - - - - - - - - - - - - - - - - - -  
+ARRAYS
+
+constructor	Returns the function that created the Array object's prototype
+length	Sets or returns the number of elements in an array
+prototype	Allows you to add properties and methods to an Array object
+
+concat()	Joins two or more arrays, and returns a copy of the joined arrays
+copyWithin()	Copies array elements within the array, to and from specified positions
+entries()	Returns a key/value pair Array Iteration Object
+every()	Checks if every element in an array pass a test
+fill()	Fill the elements in an array with a static value
+filter()	Creates a new array with every element in an array that pass a test
+find()	Returns the value of the first element in an array that pass a test
+findIndex()	Returns the index of the first element in an array that pass a test
+forEach()	Calls a function for each array element
+from()	Creates an array from an object
+includes()	Check if an array contains the specified element
+indexOf()	Search the array for an element and returns its position
+isArray()	Checks whether an object is an array
+join()	Joins all elements of an array into a string
+keys()	Returns a Array Iteration Object, containing the keys of the original array
+lastIndexOf()	Search the array for an element, starting at the end, and returns its position
+map()	Creates a new array with the result of calling a function for each array element
+pop()	Removes the last element of an array, and returns that element
+push()	Adds new elements to the end of an array, and returns the new length
+reduce()	Reduce the values of an array to a single value (going left-to-right)
+reduceRight()	Reduce the values of an array to a single value (going right-to-left)
+reverse()	Reverses the order of the elements in an array
+shift()	Removes the first element of an array, and returns that element
+slice()	Selects a part of an array, and returns the new array
+some()	Checks if any of the elements in an array pass a test
+sort()	Sorts the elements of an array
+splice()	Adds/Removes elements from an array
+toString()	Converts an array to a string, and returns the result
+unshift()	Adds new elements to the beginning of an array, and returns the new length
+valueOf()	Returns the primitive value of an array
+- - - - - - - - - - - - - - - - - - - - - - - -  
+*/
