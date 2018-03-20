@@ -8,7 +8,7 @@ FUNKSJONER SOM MANGLER:
 	Objektorienterte eksempler på classes og constructors.
 
  - Noen funksjoner er skrevet med et objekt som argument istedenfor mange argumenter.
- - litt norsk-engelsk, gjerne skriv guidene om til norsk og lag en pull-request. 
+ - litt norsk-engelsk, gjerne skriv guidene om til norsk og lag en pull-request.
  - Om du ser noe som kan forbedres gjerne lag en request på GitHub eller skriv om det i gruppechatten
  */
 
@@ -29,7 +29,7 @@ function winInit() {
 		barColor: "Darkblue",
 		textColor: "Red"
 	});
-	
+
 	//Eksempel - lese og skrive json data til en data.js fil.
 	console.log(jsonData.myData);
 	jsonData.myData[0] = "Switcheroo";
@@ -38,7 +38,7 @@ function winInit() {
 	//Eksempel HTML tabell
 	myDIV = document.getElementById("myDIV");
 	myDIV.innerHTML = drawHtmlTable();
-	
+
 	//Eksempel Canvas
     drawText({
         ctx: ctx,
@@ -113,14 +113,14 @@ function randomNumber(maxNumber) {
 }
 
 /*
-	- - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -    
+	- - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
 	JSON Functions, get json directly from .txt files or reference them in a new data.js file in html and access it as a variable.
 
 	Create a new data.js file and reference it in html head tag like so <script src = "data.js"> </script>
 	then assign the data to a variable and you can access it using "yourVariable".data
 
 	ExampleData:
-		var jsonData = 
+		var jsonData =
 	{
 		"uname":"admin",
 		"email":"admin@email.com",
@@ -132,7 +132,7 @@ function randomNumber(maxNumber) {
 	*
 	COMING SOON
 	*
-	- - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -    
+	- - - - - - - - - - - - - - - - - - - - - - - -    - - - - - - - - - - - - - - - - - - - - - - - -
 */
 
 
@@ -181,7 +181,7 @@ function changeVisiblePage(frontPage, otherPage, otherPage2) {
 	frontPage.style.visibility = "visible";
 	otherPage.style.visibility = "hidden";
 	otherPage2.style.visibility = "hidden";
-	
+
 	frontPage.style.display = "inline";
 	otherPage.style.display = "none";
 	otherPage2.style.display = "none";
@@ -369,7 +369,7 @@ function drawColumnChart(options) {
     "use strict";
     var i, yPixel;
     options.number = options.number - 1;
-    
+
     for (i = 0; i <= options.number; i = i + 1) {
         yPixel = options.yData[i] * options.yScale;
 		drawFilledSquare({
@@ -391,6 +391,28 @@ function drawColumnChart(options) {
     }
 } //Math.max.apply(null.yStolpe)// finne max verdi av array til scaling av stolpediagram.
 
+function drawPieChart(data, colors) {
+	var lastend = 0;
+	var dataArray = data; // If you add more data values make sure you add more colors
+	var myTotal = 0; // Automatically calculated so don't touch
+	var myColor = colors; // Color array of each slice, for example: colors = ["black", "blue"];
+
+	for (var e = 0; e < dataArray.length; e++) {
+  	myTotal += dataArray[e];
+	}
+
+	for (var i = 0; i < dataArray.length; i++) {
+  	ctx.fillStyle = myColor[i];
+  	ctx.beginPath();
+  	ctx.moveTo(canvas.width / 2, canvas.height / 2);
+  	// Arc Parameters: x, y, radius, startingAngle (radians), endingAngle (radians), antiClockwise (boolean)
+  	ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2, lastend, lastend + (Math.PI * 2 * (dataArray[i] / myTotal)), false);
+  	ctx.lineTo(canvas.width / 2, canvas.height / 2);
+  	ctx.fill();
+  	lastend += Math.PI * 2 * (dataArray[i] / myTotal);
+	}
+}
+
 /*
 drawPolyline DOC:
 	x:
@@ -406,9 +428,9 @@ function drawPolyline(x, y, cvx, cvy, colour, yScale) {
 	var i, yPixel;
 	ctx.beginPath();
 	ctx.strokeStyle = colour;
-	
+
 	ctx.moveTo(x.length * cvx, y[y.length] + cvy);
-	
+
 	for (i = 0; i >= x.length; i += 1) {
 		console.log(i);
 		yPixel = y[i] * yScale;
@@ -535,7 +557,7 @@ window.onclick = function (e) {
 /*
 Javascript native functions:
 
-- - - - - - - - - - - - - - - - - - - - - - - -  
+- - - - - - - - - - - - - - - - - - - - - - - -
 STRINGS
 
 constructor	Returns the string's constructor function
@@ -567,9 +589,9 @@ toString()	Returns the value of a String object
 toUpperCase()	Converts a string to uppercase letters
 trim()	Removes whitespace from both ends of a string
 valueOf()	Returns the primitive value of a String object
-- - - - - - - - - - - - - - - - - - - - - - - -  
+- - - - - - - - - - - - - - - - - - - - - - - -
 *
-- - - - - - - - - - - - - - - - - - - - - - - -  
+- - - - - - - - - - - - - - - - - - - - - - - -
 ARRAYS
 
 constructor	Returns the function that created the Array object's prototype
@@ -606,5 +628,5 @@ splice()	Adds/Removes elements from an array
 toString()	Converts an array to a string, and returns the result
 unshift()	Adds new elements to the beginning of an array, and returns the new length
 valueOf()	Returns the primitive value of an array
-- - - - - - - - - - - - - - - - - - - - - - - -  
+- - - - - - - - - - - - - - - - - - - - - - - -
 */
